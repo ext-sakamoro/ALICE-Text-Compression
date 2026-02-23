@@ -1,5 +1,5 @@
 global:
-  domain: text-compression.alice-platform.com
+  domain: text-compression.alicelaw.net
 frontend:
   replicas: 2
   image: text-compression/frontend:latest
