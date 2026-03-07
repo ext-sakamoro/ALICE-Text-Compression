@@ -99,12 +99,12 @@ export default function ConsolePage() {
                 <p className="text-sm text-red-500">{String(result.error)}</p>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {result.algorithm && <Stat label="Algorithm" value={String(result.algorithm)} />}
+                  {result.algorithm != null && <Stat label="Algorithm" value={String(result.algorithm)} />}
                   {result.original_size != null && <Stat label="Original" value={`${result.original_size} bytes`} />}
                   {result.compressed_size != null && <Stat label="Compressed" value={`${result.compressed_size} bytes`} />}
                   {result.ratio != null && <Stat label="Ratio" value={`${Number(result.ratio).toFixed(2)}x`} accent />}
                   {result.elapsed_us != null && <Stat label="Time" value={`${result.elapsed_us} us`} />}
-                  {result.job_id && <Stat label="Job ID" value={String(result.job_id).slice(0, 8)} />}
+                  {result.job_id != null && <Stat label="Job ID" value={String(result.job_id).slice(0, 8)} />}
                 </div>
               )}
             </div>
@@ -138,7 +138,7 @@ export default function ConsolePage() {
                 <Stat label="Entropy" value={`${Number(result.entropy ?? 0).toFixed(3)} bits`} accent />
                 <Stat label="Language" value={String(result.language_hint ?? '-')} />
               </div>
-              {result.estimated_ratios && (
+              {result.estimated_ratios != null && (
                 <div className="mt-3">
                   <h4 className="text-xs font-semibold text-muted-foreground mb-2">Estimated Compression Ratios</h4>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
