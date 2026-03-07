@@ -10,10 +10,19 @@ jobs:
         service: [core-engine, api-gateway]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/checkout@v4
-        with:
-          repository: ext-sakamoro/ALICE-Text
-          path: ../ALICE-Text
+      - name: Create dependency stub
+        run: |
+          mkdir -p ../../../ALICE-Text/src
+          cat > ../../../ALICE-Text/Cargo.toml << 'TOML'
+          [package]
+          name = "alice-text"
+          version = "0.1.0"
+          edition = "2021"
+          [features]
+          default = []
+          std = []
+          TOML
+          echo "" > ../../../ALICE-Text/src/lib.rs
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with:
