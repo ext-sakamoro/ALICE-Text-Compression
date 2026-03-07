@@ -12,8 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Create dependency stub
         run: |
-          mkdir -p ../../../ALICE-Text/src
-          cat > ../../../ALICE-Text/Cargo.toml << 'TOML'
+          mkdir -p ../ALICE-Text/src
+          cat > ../ALICE-Text/Cargo.toml << 'TOML'
           [package]
           name = "alice-text"
           version = "0.1.0"
@@ -22,7 +22,7 @@ jobs:
           default = []
           std = []
           TOML
-          echo "" > ../../../ALICE-Text/src/lib.rs
+          echo "" > ../ALICE-Text/src/lib.rs
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with:
