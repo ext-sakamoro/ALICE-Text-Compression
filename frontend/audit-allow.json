@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "advisory": "GHSA-vfj7-8cjw-p6xm",
+      "package": "braces",
+      "reason": "no patched release (<= 3.0.3); reached only through eslint-config-next 16 (@next/eslint-plugin-next, fast-glob, micromatch), a lint-time tool that is not in the bundle",
+      "added": "2026-10-22",
+      "expires": "2027-01-20",
+      "run": "npm audit --package-lock-only --json with npm 10 and npm 11, 2026-10-22"
+    }
+  ]
+}

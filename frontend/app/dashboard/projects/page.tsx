@@ -8,8 +8,8 @@ export default function ProjectsPage() {
   const [newName, setNewName] = useState('');
   const [creating, setCreating] = useState(false);
   const router = useRouter();
-  useEffect(() => { fetchProjects(); }, []);
   const fetchProjects = async () => { try { const supabase = createClient(); const { data } = await supabase.from('projects').select('*').order('updated_at', { ascending: false }); if (data) setProjects(data); } catch {} };
+  useEffect(() => { (async () => { await fetchProjects(); })(); }, []);
   const handleCreate = async () => { if (!newName.trim()) return; setCreating(true); try { const supabase = createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) return; const { data, error } = await supabase.from('projects').insert({ name: newName.trim(), owner_id: user.id, config: {} }).select().single(); if (error) throw error; if (data) router.push(`/dashboard/console?project=${data.id}`); } catch {} finally { setCreating(false); } };
   return (
     <div className="p-6 space-y-6">

@@ -37,7 +37,27 @@ jobs:
         with: { node-version: 22 }
       # the lock decides what is installed: a package.json that drifted from package-lock.json fails here
       - run: cd frontend && npm ci
+      # the build writes .next (and next-env.d.ts, which type-check reads): no BUILD_ID means nothing was built
+      - run: cd frontend && npx next build && test -f .next/BUILD_ID
       - run: cd frontend && npm run type-check
+      - run: cd frontend && npm run lint
+      # a lint run that read no file passes vacuously: count the files it linted
+      - run: |
+          cd frontend
+          n=$(npx eslint . --format json | node -e 'process.stdout.write(String(JSON.parse(require("fs").readFileSync(0, "utf8")).length))')
+          echo "linted files: $n"
+          [ "$n" -gt 0 ]
+      # production dependencies: any advisory fails
+      - run: cd frontend && npm audit --package-lock-only --omit=dev --audit-level=low
+      # every dependency, build-time tools included: an advisory not in frontend/audit-allow.json fails, and so
+      # does an entry that expired, went stale or now has a patched release (scripts/frontend_audit_check.py)
+      - name: npm audit (all dependencies, against the allow list)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          cd frontend
+          npm audit --package-lock-only --json > "$RUNNER_TEMP/npm-audit.json" || true
+          python3 ../scripts/frontend_audit_check.py "$RUNNER_TEMP/npm-audit.json" audit-allow.json
 
   actionlint:
     name: actionlint (workflow YAML 検証)
