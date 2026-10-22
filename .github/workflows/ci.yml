@@ -37,7 +37,16 @@ jobs:
         with: { node-version: 22 }
       # the lock decides what is installed: a package.json that drifted from package-lock.json fails here
       - run: cd frontend && npm ci
+      # the build writes .next (and next-env.d.ts, which type-check reads): no BUILD_ID means nothing was built
+      - run: cd frontend && npx next build && test -f .next/BUILD_ID
       - run: cd frontend && npm run type-check
+      - run: cd frontend && npm run lint
+      # a lint run that read no file passes vacuously: count the files it linted
+      - run: |
+          cd frontend
+          n=$(npx eslint . --format json | node -e 'process.stdout.write(String(JSON.parse(require("fs").readFileSync(0, "utf8")).length))')
+          echo "linted files: $n"
+          [ "$n" -gt 0 ]
 
   actionlint:
     name: actionlint (workflow YAML 検証)

@@ -11,7 +11,7 @@ export default function BillingPage() {
   useEffect(() => { (async () => { try { const supabase = createClient(); const { data: { user } } = await supabase.auth.getUser(); if (!user) return; const { data } = await supabase.from('profiles').select('plan').eq('id', user.id).single(); if (data) setCurrent(data.plan || 'Free'); } catch {} })(); }, []);
   const handleUpgrade = async (plan: string) => {
     if (plan === 'Enterprise') { window.open('mailto:sales@alicelaw.net?subject=Enterprise%20Plan', '_blank'); return; }
-    try { const r = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan }) }); const { url } = await r.json(); if (url) window.location.href = url; } catch {}
+    try { const r = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan }) }); const { url } = await r.json(); if (url) window.location.assign(url); } catch {}
   };
   return (
     <div className="p-6 space-y-6">
