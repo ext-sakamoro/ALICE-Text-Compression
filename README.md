@@ -2,7 +2,7 @@
 
 Exception-based text compression engine — predictive coding, entropy encoding, and hybrid compression via REST API.
 
-**License: AGPL-3.0**
+**License: AGPL-3.0-or-later**
 
 ---
 
