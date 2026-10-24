@@ -1,6 +1,7 @@
 [package]
 name = "alice-text-compression"
+publish = false
 version = "0.1.0"
 edition = "2021"
 description = "Text-specific compression algorithms (BWT, MTF, RLE, Huffman)"
-license = "AGPL-3.0-or-later"
+license = "LicenseRef-Proprietary"
