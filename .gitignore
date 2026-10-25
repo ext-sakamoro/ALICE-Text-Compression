@@ -22,6 +22,5 @@ Thumbs.db
 coverage/
 export-data/
 redis-data/
-CLAUDE.md
 frontend/next-env.d.ts
 frontend/tsconfig.tsbuildinfo
